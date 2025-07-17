@@ -46,8 +46,15 @@ INSERT INTO Transactions VALUES (1003, 103, 'Credit', 2000.00, '2025-07-03');
  GROUP BY CustomerID
  HAVING COUNT(*)>1;
  
- SELECT Balance
- FROM Accounts;
+ SELECT AccountID, 'Credit' AS  type, SUM(Amount) AS Total_Amount
+ FROM Transactions
+ WHERE TransactionType='Credit'
+ GROUP BY AccountID
+ UNION
+ SELECT AccountID, 'Debit' AS type, SUM(Amount) AS Total_Amount
+ FROM Transactions
+ WHERE TransactionType='Debit'
+ GROUP BY AccountID;
  
  ALTER TABLE Accounts
  ADD BranchName VARCHAR(50);
